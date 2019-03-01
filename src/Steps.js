@@ -6,8 +6,8 @@ import Activities from './Activities'
 import Results from './Results'
 
 const StepsRouteTransition = posed.div({
-  enter: { opacity: 1 },
-  exit: { opacity: 0 }
+  enter: { y: 0, opacity: 1, transition: { y: { ease: 'linear' } } },
+  exit: { y: '500%', opacity: 0, transition: { y: { ease: 'linear' } } }
 });
 
 const AnimatedRoute = posed.div({
@@ -17,19 +17,15 @@ const AnimatedRoute = posed.div({
 
 class Steps extends Component {
   render() {
-  	console.log('child', this.props.location.pathname)
+
     return (
     	<div>
-	    	{/*<StepsRouteTransition key={this.props.location.pathname}>*/}
-		    	<PoseGroup>
-					<AnimatedRoute key="activities" withParent={false}>
-						<Route exact path="/steps/activities" component={Activities} />
-					</AnimatedRoute>
-					<AnimatedRoute  key="results" withParent={false}>
-						<Route exact path="/steps/results" component={Results} />
-					</AnimatedRoute>
-				</PoseGroup>
-			{/*</StepsRouteTransition>*/}
+        <PoseGroup>
+          <StepsRouteTransition key={this.props.location.pathname}>
+      	     <Route exact path="/steps/activities" key="activities" component={Activities} />
+      	     <Route exact path="/steps/results" key="results" component={Results} />
+          </StepsRouteTransition>
+        </PoseGroup>
 		</div>
     );
   }
