@@ -3,9 +3,16 @@ import { Route, Switch, withRouter, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import posed, { PoseGroup } from 'react-pose';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-
+import Activities from './Activities'
+import Results from './Results'
 import Home from './Home'
-import Steps from './Steps'
+
+
+const ContentContainerRouteTransition = posed.div({
+  enter: { opacity:1, x:0, transition: { type: 'spring', stiffness: 80, damping:15}},
+  exit: { opacity:0, x:100, transition: { type: 'spring', stiffness: 80, damping:15}},
+});
+
 
 class App extends Component {
 
@@ -27,8 +34,8 @@ class App extends Component {
 					{ /* This is the navigation */ }
 					<div className="fixed z-50  w-full pin-t p-4">
 						<Link to="/">Home</Link>
-						<Link className="ml-2" to="/steps/activities">Activities</Link>
-						<Link className="ml-2" to="/steps/results">Results</Link>
+						<Link className="ml-2" to="/activities">Activities</Link>
+						<Link className="ml-2" to="/results">Results</Link>
 						<Link className="ml-2" to="/">Reset</Link>
 						<button className="ml-2"onClick={this.toggleContent}>Toggla lista</button>
 					</div>
@@ -48,25 +55,19 @@ class App extends Component {
               		</TransitionGroup>
 
 					{ /* This is the container for our content */ }
-					<ContentContainer>
-						<TransitionGroup>
-			                <CSSTransition
-			                  key={this.props.location.pathname.split('/')[1]}
-			                  classNames="fadeUp"
-			                  timeout={300}
-			                >
-			                	<Switch location={this.props.location}>
-									<Route path="/steps" component={Steps} />
-								</Switch>
-			               </CSSTransition>
-              			</TransitionGroup>
-					</ContentContainer>
 
+					<PoseGroup>
+						<ContentContainer key={this.props.location.pathname.split('/')[1]}>
+							<Switch location={this.props.location}>
+								<Route exact path="/activities" key="activities" component={Activities} />
+		            			<Route exact path="/results" key="results" component={Results} />
+							</Switch>
+						</ContentContainer>
+					</PoseGroup>
 
+					<MapContainer />
 				    { /* This is the map */ }
-					<MapContainer>
-						Markera mig
-					</MapContainer>
+					
 				</div>
 
 			</React.Fragment>
@@ -87,13 +88,13 @@ const MapContainer = styled.div`
 	left:0;
 `
 
-const ContentContainerAnimated = posed.div({
-	visible: { y:0, transition: { type: 'spring', stiffness: 80, damping:15}},
-	hidden: { y:'100%',  transition: { type: 'spring', stiffness: 80, damping:15 }  }
-});
-
-const ContentContainer = styled(ContentContainerAnimated)`
-	position:relative;
+const ContentContainer = styled(ContentContainerRouteTransition)`
+	position:absolute;
+	display:flex;
+	padding:0 1rem;
+	overflow:hidden;
+	align-items:flex-end;
+	justify-content:center;
 	height:100vh;
 	width:100vw;
 	top:0;

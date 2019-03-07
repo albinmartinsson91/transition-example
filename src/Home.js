@@ -5,9 +5,9 @@ import { Route, Switch, withRouter, Link, Redirect } from 'react-router-dom'
 class Home extends Component {
   render() {
     return (
-    	<div className="z-30 absolute h-screen flex flex-col items-center justify-center text-center w-full bg-green">
+    	<div className="z-30 absolute h-screen flex flex-col items-center justify-center text-center w-full">
 			<h1>Home is where your heart is.</h1>
-			<Link className="ml-2" to="/steps/activities">Activities</Link>
+			<Link className="ml-2 bg-blue p-4 mt-2" to="/activities">Activities</Link>
 		</div>
     );
   }

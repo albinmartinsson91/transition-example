@@ -7,11 +7,18 @@ import posed, { PoseGroup } from 'react-pose';
 class Activites extends Component {
   render() {
     return (
-    	<div className="absolute w-full pin-t pin-l pin-r p-4">
+    	<CardContainer className="p-4 bg-white rounded w-full">
     		<h1 className="w-full bg-grey">Activities are alot of fun.</h1>
-    	</div>
+    	</CardContainer>
     );
   }
 }
+
+
+const CardContainer = styled.div`
+    height:60vh;
+    margin:0 auto;
+    z-index:40;
+`
 
 export default Activites;
