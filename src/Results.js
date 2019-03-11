@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
+import Result from './Result'
 
 class Results extends Component {
   render() {
     return (
-    	<CardContainer className="p-4 bg-white rounded w-full">
+    	<CardContainer className="p-4 bg-white overflow-scroll scrolling-touch rounded w-full">
       		<h1 className="w-full bg-grey">Results are all that matters.</h1>
-      		<ul>
-      			<li>adasdasdas</li>
-      			<li>asdasdasdas</li>
-      			<li>asdasdasd</li>
-      			<li>asdasdasd</li>
-      			<li>adasdasdas</li>
-      			<li>asdasdasdas</li>
-      			<li>asdasdasd</li>
-      			<li>asdasdasd</li>
-      			<li>adasdasdas</li>
-      			<li>asdasdasdas</li>
+      		<ul className="w-full list-reset">
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
+              <Result />
       		</ul>
       	</CardContainer>
     );

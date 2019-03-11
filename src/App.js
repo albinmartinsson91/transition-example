@@ -9,8 +9,9 @@ import Home from './Home'
 
 
 const ContentContainerRouteTransition = posed.div({
-  enter: { opacity:1, x:0, transition: { type: 'spring', stiffness: 80, damping:15}},
-  exit: { opacity:0, x:100, transition: { type: 'spring', stiffness: 80, damping:15}},
+	before: { x:'100%', opacity: 0, transition: { type: 'spring', stiffness: 125}},
+	enter: { opacity:1, x:0, transition: { type: 'spring', stiffness: 125}},
+	exit: { opacity:0, x:'-100%', transition: { type: 'spring', stiffness: 125}},
 });
 
 
@@ -29,8 +30,7 @@ class App extends Component {
 
 	render() {
 		return (
-			<React.Fragment>
-				<div className="overflow-hidden">
+			<div className="absolute h-full w-full overflow-hidden">
 					{ /* This is the navigation */ }
 					<div className="fixed z-50  w-full pin-t p-4">
 						<Link to="/">Home</Link>
@@ -55,25 +55,45 @@ class App extends Component {
               		</TransitionGroup>
 
 					{ /* This is the container for our content */ }
-
-					<PoseGroup>
-						<ContentContainer key={this.props.location.pathname.split('/')[1]}>
-							<Switch location={this.props.location}>
-								<Route exact path="/activities" key="activities" component={Activities} />
-		            			<Route exact path="/results" key="results" component={Results} />
-							</Switch>
-						</ContentContainer>
-					</PoseGroup>
-
-					<MapContainer />
-				    { /* This is the map */ }
 					
-				</div>
 
-			</React.Fragment>
+					<ToggleContentContainer pose={this.state.contentVisible ? 'visible' : 'hidden'}>
+						<PoseGroup preEnterPose="before">
+							<ContentContainer key={this.props.location.pathname.split('/')[1]}>
+								<Switch location={this.props.location}>
+									<Route exact path="/activities" key="activities" component={Activities} />
+			            			<Route exact path="/results" key="results" component={Results} />
+								</Switch>
+							</ContentContainer>
+						</PoseGroup>
+					</ToggleContentContainer>
+
+
+
+					<MapContainer>
+						Markera mig
+					</MapContainer>
+				    { /* This is the map */ }
+			</div>
 		)
 	}
 }
+
+
+const ToggleContentContainerAnimated = posed.div({
+	visible: { y:0, transition: { type: 'spring', stiffness: 125}},
+	hidden: { y:'100%',  transition: { type: 'spring', stiffness: 125}}
+});
+
+
+const ToggleContentContainer = styled(ToggleContentContainerAnimated)`
+	position:absolute;
+	height:100%;
+	width:100%;
+	z-index:20;
+	top:0;
+	left:0;
+`
 
 const MapContainer = styled.div`
 	background:pink;
@@ -95,11 +115,10 @@ const ContentContainer = styled(ContentContainerRouteTransition)`
 	overflow:hidden;
 	align-items:flex-end;
 	justify-content:center;
-	height:100vh;
-	width:100vw;
+	height:100%;
+	width:100%;
 	top:0;
 	left:0;
-	z-index:20;
 `
 
 export default withRouter(App)
